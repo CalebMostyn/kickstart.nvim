@@ -326,7 +326,7 @@ require('lazy').setup({
         },
         -- A list of functions, each representing a global custom command
         -- that will be available in all sources (if not overridden in `opts[source_name].commands`)
-        -- see `:h neo-tree-custom-commands-global`
+        --<space> see `:h neo-tree-custom-commands-global`
         commands = {},
         window = {
           position = 'left',
@@ -336,7 +336,7 @@ require('lazy').setup({
             nowait = true,
           },
           mappings = {
-            ['<space>'] = {
+            ['t'] = {
               'toggle_node',
               nowait = false, -- disable `nowait` if you have existing combos starting with this char that you want to use
             },
@@ -350,7 +350,7 @@ require('lazy').setup({
             ['s'] = 'open_vsplit',
             -- ["S"] = "split_with_window_picker",
             -- ["s"] = "vsplit_with_window_picker",
-            ['t'] = 'open_tabnew',
+            --[[             ['t'] = 'open_tabnew' ]]
             -- ["<cr>"] = "open_drop",
             -- ["t"] = "open_tab_drop",
             ['w'] = 'open_with_window_picker',
@@ -512,7 +512,7 @@ require('lazy').setup({
           window = {
             position = 'float',
             mappings = {
-              ['gaa'] = 'git_add_all',
+              ['g*'] = 'git_add_all',
               ['gu'] = 'git_unstage_file',
               ['ga'] = 'git_add_file',
               ['gr'] = 'git_revert_file',
@@ -536,6 +536,7 @@ require('lazy').setup({
       }
 
       vim.keymap.set('n', '<leader>n', '<Cmd>Neotree toggle<CR>')
+      vim.keymap.set('n', '<leader>g', '<Cmd>Neotree git_status<CR>')
     end,
   },
   -- NOTE: Plugins can be added with a link (or for a github repo: 'owner/repo' link).
