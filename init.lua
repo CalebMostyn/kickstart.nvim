@@ -155,6 +155,18 @@ vim.opt.rtp:prepend(lazypath)
 --
 -- NOTE: Here is where you install your plugins.
 require('lazy').setup({
+  {
+    'MeanderingProgrammer/render-markdown.nvim',
+    dependencies = { 'nvim-treesitter/nvim-treesitter', 'echasnovski/mini.nvim' }, -- if you use the mini.nvim suite
+    -- dependencies = { 'nvim-treesitter/nvim-treesitter', 'echasnovski/mini.icons' }, -- if you use standalone mini plugins
+    -- dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-tree/nvim-web-devicons' }, -- if you prefer nvim-web-devicons
+    ---@module 'render-markdown'
+    ---@type render.md.UserConfig
+    opts = {},
+    keys = {
+      { '<leader>md', '<cmd>RenderMarkdown toggle<cr>', desc = 'Toggle Markdown Rendering' },
+    },
+  },
   -- If you want neo-tree's file operations to work with LSP (updating imports, etc.), you can use a plugin like
   -- https://github.com/antosha417/nvim-lsp-file-operations:
   -- {
@@ -336,7 +348,7 @@ require('lazy').setup({
             nowait = true,
           },
           mappings = {
-            ['t'] = {
+            ['<space>'] = {
               'toggle_node',
               nowait = false, -- disable `nowait` if you have existing combos starting with this char that you want to use
             },
@@ -1212,7 +1224,7 @@ require('lazy').setup({
       -- Load the colorscheme here.
       -- Like many other themes, this one has different styles, and you could load
       -- any other, such as 'tokyonight-storm', 'tokyonight-moon', or 'tokyonight-day'.
-      vim.cmd.colorscheme 'tokyonight-night'
+      vim.cmd.colorscheme 'tokyonight-storm'
     end,
   },
 
