@@ -5,8 +5,9 @@ local godot_project_path = ''
 local cwd = vim.fn.getcwd()
 
 -- iterate over paths and check
+local uv = vim.uv or vim.loop
 for key, value in pairs(paths_to_check) do
-  if vim.uv.fs_stat(cwd .. value .. 'project.godot') then
+  if uv.fs_stat(cwd .. value .. 'project.godot') then
     is_godot_project = true
     godot_project_path = cwd .. value
     break
@@ -14,7 +15,7 @@ for key, value in pairs(paths_to_check) do
 end
 
 -- check if server is already running in godot project path
-local is_server_running = vim.uv.fs_stat(godot_project_path .. '/server.pipe')
+local is_server_running = uv.fs_stat(godot_project_path .. '/server.pipe')
 -- start server, if not already running
 if is_godot_project and not is_server_running then
   vim.fn.serverstart(godot_project_path .. '/server.pipe')
@@ -806,42 +807,40 @@ require('lazy').setup({
     },
   },
   {
-    -- Main LSP Configuration
-    'neovim/nvim-lspconfig',
-    dependencies = {
-      -- Automatically install LSPs and related tools to stdpath for Neovim
-      -- Mason must be loaded before its dependents so we need to set it up here.
-      -- NOTE: `opts = {}` is the same as calling `require('mason').setup({})`
-      { 'williamboman/mason.nvim', opts = {} },
+  'neovim/nvim-lspconfig',
+  dependencies = {
+    {
+      'williamboman/mason.nvim',
+      version = "^1",
+      opts = {},
+    },
+    {
       'williamboman/mason-lspconfig.nvim',
-
-      {
-        'WhoIsSethDaniel/mason-tool-installer.nvim',
-        opts = {
-          ensure_installed = {
-            -- LSP servers
-            'lua_ls', -- Lua
-            'pyright', -- Python
-            'clangd', -- C/C++
-            'tsserver', -- JavaScript / TypeScript
-            'bashls', -- Bash
-            'html', -- HTML
-            'cssls', -- CSS
-            'jsonls', -- JSON
-            'omnisharp', -- C# LSP
-
-            -- Optional tools
-            'black', -- Python formatter
-            'isort', -- Python import sorter
-            'prettier', -- JS/HTML/CSS formatter
-            'eslint_d', -- JS/TS linter
-            'clang-format', -- C/C++ formatter
-          },
-          auto_update = true,
-          run_on_start = true,
+      version = "1.22.0",
+      opts = {}, -- you can omit this if you don't need special setup
+    },
+    {
+      'WhoIsSethDaniel/mason-tool-installer.nvim',
+      version = "1.1.0",
+      opts = {
+        ensure_installed = {
+          'lua_ls',
+          'pyright',
+          'clangd',
+          'tsserver',
+          'bashls',
+          'html',
+          'cssls',
+          'jsonls',
+          'omnisharp',
+          'black',
+          'isort',
+          'prettier',
+          'eslint_d',
+          'clang-format',
         },
       },
-
+    },
       -- Useful status updates for LSP.
       { 'j-hui/fidget.nvim', opts = {} },
 
